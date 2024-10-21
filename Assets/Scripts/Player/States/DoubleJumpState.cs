@@ -8,34 +8,32 @@ namespace Player
     {
         public DoubleJumpState(StateMachine machine) : base(machine) {}
 
-        private float doubleJumpTimer;
+        private float timer;
 
         public override void Enter()
         {
-            Debug.Log("Enter DoubleJump");
+            // Debug.Log("Enter DoubleJump");
             machine.player.anim.Play("DoubleJump");
-            doubleJumpTimer = 0.1f;
+            timer = machine.player.DoulbeJumpDuration;
         }
 
         public override void Execute()
         {
             machine.player.DoubleJump();
-            if(doubleJumpTimer > 0)
+
+            if(timer > 0)
             {
-                doubleJumpTimer -= Time.deltaTime;
+                timer -= Time.deltaTime;
             }
             else
             {
                 machine.ChangeState(machine.Fall);
             }
-
-
-            
         }
 
         public override void Exit()
         {
-            Debug.Log("Exit DoubleJump");
+            // Debug.Log("Exit DoubleJump");
         }
     }
 }

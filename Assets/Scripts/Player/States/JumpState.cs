@@ -12,7 +12,7 @@ namespace Player
 
         public override void Enter()
         {
-            Debug.Log("Enter Jump");
+            // Debug.Log("Enter Jump");
             machine.player.anim.Play("Jump");
             jumpTimer = machine.player.JumpDuration;
         }
@@ -46,7 +46,7 @@ namespace Player
 
         public override void Exit()
         {
-            Debug.Log("Exit Jump");
+            // Debug.Log("Exit Jump");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Player
         
         public override void Enter()
         {
-            Debug.Log("Enter Move");
+            // Debug.Log("Enter Move");
             machine.player.anim.Play("Move");
         }
 
@@ -36,7 +36,7 @@ namespace Player
 
         public override void Exit()
         {
-            Debug.Log("Exit Move");
+            // Debug.Log("Exit Move");
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player
@@ -12,6 +13,7 @@ namespace Player
         private BoxCollider2D bc;
         public  Animator      anim;
 
+        
         private float xInput;
         private bool leftMouseInput;
         private bool spaceInput;
@@ -36,9 +38,18 @@ namespace Player
 
         [Header("Double Jump Setting")]
         [SerializeField] private float doubleJumpForce;
+        private float doubleJumpDuration = 0.1f; // De thoi gian cua DoubleJumpState trung voi animation
+        public  float DoulbeJumpDuration => doubleJumpDuration;
 
         [Header("Fall Setting")]
         [SerializeField] private float multiplier;
+
+        [Header("Attack Setting")]
+        [SerializeField] private Transform attackPoint;
+        [SerializeField] private float attackRange;
+        [SerializeField] private LayerMask enemyLayer;
+        private float attackDuration = 0.35f; // De thoi cua gian AttackState trung voi animation
+        public  float AttackDuration => attackDuration;
 
         void Awake()
         {
@@ -89,7 +100,6 @@ namespace Player
         }
 
         
-
         public void Move()
         {
             rb.velocity = new Vector2(moveSpeed * xInput, rb.velocity.y);
@@ -101,24 +111,39 @@ namespace Player
 
         public void Fall()
         {
-        rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + Physics2D.gravity.y * multiplier * Time.deltaTime);
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + Physics2D.gravity.y * multiplier * Time.deltaTime);
         }
 
         public void Jump()
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            // rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse); 
         }
 
         public void DoubleJump()
         {
             rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
-            // rb.AddForce(new Vector2(0, doubleJumpForce), ForceMode2D.Impulse); 
         }
 
         public void Attack()
         {
             rb.velocity = new Vector2(1 * transform.localScale.x, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
+            
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+            foreach(Collider2D enemy in enemies)
+            {
+                enemy.GetComponent<HealthManager>().TakeDamage(10);
+            }
+
+        }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
+
+        void OnCollisionEnter2D(Collision2D collider)
+        {
+            
         }
     }
 }

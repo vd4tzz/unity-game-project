@@ -10,7 +10,7 @@ namespace Player
 
         public override void Enter()
         {
-            Debug.Log("Enter Idle");
+            // Debug.Log("Enter Idle");
             machine.player.anim.Play("Idle");
         }
 
@@ -34,7 +34,7 @@ namespace Player
 
         public override void Exit()
         {
-            Debug.Log("Exit Idle");
+            // Debug.Log("Exit Idle");
         }
     }
 }

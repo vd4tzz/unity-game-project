@@ -8,21 +8,22 @@ namespace Player
     {
         public AttackState2(StateMachine machine) : base(machine) {}
 
-        private float attackTimer;
+        private float timer;
 
         public override void Enter()
         {
-            Debug.Log("Enter Attack2");
-            attackTimer = 0.35f;
+            // Debug.Log("Enter Attack2");
+            timer = machine.player.AttackDuration;
             machine.player.anim.Play("Attack2");
         }
 
         public override void Execute()
         {
             machine.player.Attack();
-            if(attackTimer > 0)
+
+            if(timer > 0)
             {
-                attackTimer -= Time.deltaTime;
+                timer -= Time.deltaTime;
                 if(machine.player.LeftMouseInput)
                 {
                     machine.ChangeState(machine.Attack);
@@ -45,7 +46,7 @@ namespace Player
 
         public override void Exit()
         {
-            Debug.Log("Exit Attack2");
+            // Debug.Log("Exit Attack2");
         }
     }
 }
