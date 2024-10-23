@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class IdleState : State
+    public class IdleState : PlayerState
     {
-        public IdleState(StateMachine machine) : base(machine) {}
+        public IdleState(PlayerStateMachine machine) : base(machine) {}
 
         public override void Enter()
         {
@@ -29,6 +29,11 @@ namespace Player
             if(machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
+            }
+
+            if(machine.player.Health <= 0)
+            {
+                machine.ChangeState(machine.Die);
             }
         }
 

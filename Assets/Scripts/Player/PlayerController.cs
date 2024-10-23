@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class Controller : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IController
     {
-        private StateMachine  machine;
+        private PlayerStateMachine  machine;
         private Rigidbody2D   rb;
         private BoxCollider2D bc;
         public  Animator      anim;
@@ -21,6 +21,17 @@ namespace Player
         public float XInput         => xInput;
         public bool  LeftMouseInput => leftMouseInput;
         public bool  SpaceInput     => spaceInput;
+
+        [Header("Health Setting")]
+        [SerializeField] float health = 100;
+        [SerializeField] private float cooldown = 0.4f;
+        private float damage;
+        [SerializeField] private float timer;
+        private bool  isTakingDamage = false;
+        private bool  canTakeDamage;
+
+        public float Health => health;
+        public bool IsTakingDamage => isTakingDamage;
 
         [Header("Ground Check Setting")]
         [SerializeField] private LayerMask groundLayer;
@@ -38,7 +49,7 @@ namespace Player
 
         [Header("Double Jump Setting")]
         [SerializeField] private float doubleJumpForce;
-        private float doubleJumpDuration = 0.1f; // De thoi gian cua DoubleJumpState trung voi animation
+        private float doubleJumpDuration = 0.1f; 
         public  float DoulbeJumpDuration => doubleJumpDuration;
 
         [Header("Fall Setting")]
@@ -48,8 +59,13 @@ namespace Player
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange;
         [SerializeField] private LayerMask enemyLayer;
-        private float attackDuration = 0.35f; // De thoi cua gian AttackState trung voi animation
+        [SerializeField] private float attackDamage;
+        private float attackDuration = 0.35f; 
         public  float AttackDuration => attackDuration;
+
+        [Header("Die Setting")]
+        private float dieDuration = 2.7f;
+        public  float DieDuration => dieDuration;
 
         void Awake()
         {
@@ -60,8 +76,7 @@ namespace Player
 
         void Start()
         {
-            machine = new StateMachine(this);
-            machine.SetInitialState();
+            machine = new PlayerStateMachine(this);
         }
 
         
@@ -69,6 +84,7 @@ namespace Player
         {
             HandleInput();
             _IsGrounded();
+            MinusHealth();
 
         }
 
@@ -88,14 +104,8 @@ namespace Player
         void _IsGrounded()
         {
             RaycastHit2D boxCast = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.down, extraHeight, groundLayer);
-            if(boxCast)
-            {
-                isGrounded = true;
-            }
-            else
-            {
-                isGrounded = false;
-            }
+            
+            isGrounded = (boxCast)? true : false;
 
         }
 
@@ -103,6 +113,8 @@ namespace Player
         public void Move()
         {
             rb.velocity = new Vector2(moveSpeed * xInput, rb.velocity.y);
+
+            // Flip character
             if(xInput > 0)
                 transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             else if(xInput < 0)
@@ -131,19 +143,46 @@ namespace Player
             Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
             foreach(Collider2D enemy in enemies)
             {
-                enemy.GetComponent<HealthManager>().TakeDamage(10);
+                enemy.GetComponent<IController>().TakeDamage(attackDamage);
             }
 
+        }
+
+        public void DestroyObject()
+        {
+            Destroy(gameObject);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            if(timer > 0) return;
+
+            isTakingDamage = true;
+            canTakeDamage  = true;
+            this.damage    = damage;
+            timer          = cooldown;
+        }
+
+        private void MinusHealth()
+        {
+            if(canTakeDamage)
+            {
+                health -= damage;
+                canTakeDamage = false;
+            }
+            if(timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                isTakingDamage = false;
+            }
         }
 
         void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-        }
-
-        void OnCollisionEnter2D(Collision2D collider)
-        {
-            
         }
     }
 }

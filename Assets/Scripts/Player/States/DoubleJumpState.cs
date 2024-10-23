@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class DoubleJumpState : State
+    public class DoubleJumpState : PlayerState
     {
-        public DoubleJumpState(StateMachine machine) : base(machine) {}
+        public DoubleJumpState(PlayerStateMachine machine) : base(machine) {}
 
         private float timer;
 
@@ -28,6 +28,11 @@ namespace Player
             else
             {
                 machine.ChangeState(machine.Fall);
+            }
+
+            if(machine.player.Health <= 0)
+            {
+                machine.ChangeState(machine.Die);
             }
         }
 

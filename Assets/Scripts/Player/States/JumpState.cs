@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class JumpState : State
+    public class JumpState : PlayerState
     {
-        public JumpState(StateMachine machine) : base(machine) {}
+        public JumpState(PlayerStateMachine machine) : base(machine) {}
 
         private float jumpTimer;
 
@@ -40,6 +40,11 @@ namespace Player
             if(machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
+            }
+
+            if(machine.player.Health <= 0)
+            {
+                machine.ChangeState(machine.Die);
             }
         
         }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class FallState : State
+    public class FallState : PlayerState
     {
-        public FallState(StateMachine machine) : base(machine) {}
+        public FallState(PlayerStateMachine machine) : base(machine) {}
 
         private bool canDoubleJump;
 
@@ -37,6 +37,11 @@ namespace Player
             if(machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
+            }
+
+            if(machine.player.Health <= 0)
+            {
+                machine.ChangeState(machine.Die);
             }
         }
 

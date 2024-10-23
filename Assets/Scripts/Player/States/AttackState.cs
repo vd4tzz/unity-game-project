@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Player
 {
-    public class AttackState : State
+    public class AttackState : PlayerState
     {
-        public AttackState(StateMachine machine) : base(machine) {}
+        public AttackState(PlayerStateMachine machine) : base(machine) {}
 
         private float timer;
 
@@ -40,6 +40,11 @@ namespace Player
                     machine.ChangeState(machine.Fall);
                 }
                 
+            }
+
+            if(machine.player.Health <= 0)
+            {
+                machine.ChangeState(machine.Die);
             }
         
         }
