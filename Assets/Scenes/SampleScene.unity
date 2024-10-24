@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 565139320}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -0.32, z: 0}
+  m_LocalPosition: {x: 0.455, y: -0.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -256,7 +256,7 @@ Transform:
   m_GameObject: {fileID: 665695155}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.46, y: 0.82, z: 0}
+  m_LocalPosition: {x: -3.46, y: 0.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  health: 100
+  health: 50
   cooldown: 0.4
   timer: 0
   groundLayer:
@@ -293,7 +293,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  attackDamage: 0
+  attackDamage: 10
 --- !u!50 &665695160
 Rigidbody2D:
   serializedVersion: 4
@@ -353,18 +353,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.21554935, y: -0.03354311}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.09375, y: 1.46875}
+    oldSize: {x: 1.09375, y: 1.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.09375, y: 1.5}
+  m_Size: {x: 0.6626513, y: 1.5670862}
   m_EdgeRadius: 0
 --- !u!1 &1209437645
 GameObject:
@@ -638,6 +638,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3043425333383518740, guid: a2fedb303351ef13b9c86c0708d06d12, type: 3}
       propertyPath: chase
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043425333383518740, guid: a2fedb303351ef13b9c86c0708d06d12, type: 3}
+      propertyPath: attack
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3043425333383518740, guid: a2fedb303351ef13b9c86c0708d06d12, type: 3}
@@ -662,7 +666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3043425333383518740, guid: a2fedb303351ef13b9c86c0708d06d12, type: 3}
       propertyPath: attackRange
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3043425333383518740, guid: a2fedb303351ef13b9c86c0708d06d12, type: 3}
       propertyPath: detectRange

@@ -21,6 +21,7 @@ namespace BoardEnemy
         {
             if(timer > 0)
             {
+                machine.enemy.Stop();
                 timer -= Time.deltaTime;
             }
             else if(machine.enemy.Health <= 0)

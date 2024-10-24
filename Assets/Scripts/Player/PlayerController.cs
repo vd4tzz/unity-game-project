@@ -180,9 +180,15 @@ namespace Player
             }
         }
 
+        [Header("Debug Setting")]
+        public bool attack;
         void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            if(attack)
+            {
+                Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            }
+            
         }
     }
 }

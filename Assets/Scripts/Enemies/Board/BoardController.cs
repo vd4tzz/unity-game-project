@@ -69,7 +69,7 @@ namespace BoardEnemy
         
         void Update()
         {
-            // Flip();
+            Flip();
             MinusHealth();
         }
 
@@ -80,16 +80,16 @@ namespace BoardEnemy
 
         private void Flip()
         {
-            // if(rb.velocity.x > 0) 
-            // {
-            //     transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y);
-            // }
-            // else if(rb.velocity.x < 0)
-            // {
-            //     transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
-            // }
+            if(rb.velocity.x > 0) 
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            }
+            else if(rb.velocity.x < 0)
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            }
 
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y);
+            // transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y);
         }
 
         
@@ -100,7 +100,7 @@ namespace BoardEnemy
                 if(transform.position.x > originalPosition.x + patrolDistance)
                 {
                     patrolDirection = Vector2.left;
-                    Flip();
+                    // Flip();
                 }
             }
             else
@@ -108,7 +108,7 @@ namespace BoardEnemy
                 if(transform.position.x < originalPosition.x - patrolDistance)
                 {
                     patrolDirection = Vector2.right;
-                    Flip();
+                    // Flip();
                 }
             }
 
@@ -157,7 +157,7 @@ namespace BoardEnemy
             if(transform.position.x - player.transform.position.x > 0)
             {
                 chaseDirection = Vector2.left;
-                
+
             }
             else if(transform.position.x - player.transform.position.x < 0)
             {
@@ -172,7 +172,7 @@ namespace BoardEnemy
             RaycastHit2D ray = Physics2D.Raycast(transform.position, chaseDirection, attackRange, playerLayer);
             if(ray)
             {
-                player.GetComponent<IController>().TakeDamage(attackDamage);
+                ray.collider.GetComponent<IController>().TakeDamage(attackDamage);
             }
         }
 
