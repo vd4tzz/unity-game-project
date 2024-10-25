@@ -6,7 +6,7 @@ namespace BoardEnemy
 {
     public class ChaseState : BoardState
     {
-        public ChaseState(StateMachine machine) : base(machine) {}
+        public ChaseState(BoardStateMachine machine) : base(machine) {}
 
         public override void Enter()
         {

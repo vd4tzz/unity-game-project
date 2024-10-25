@@ -6,7 +6,7 @@ namespace BoardEnemy
 {
     public class DetectState : BoardState
     {
-        public DetectState(StateMachine machine) : base(machine) {}
+        public DetectState(BoardStateMachine machine) : base(machine) {}
         
         float timer;
         public override void Enter() 

@@ -7,7 +7,7 @@ namespace BoardEnemy
 {
     public class BoardController : MonoBehaviour, IController
     {
-        private StateMachine machine;
+        private BoardStateMachine machine;
         private Rigidbody2D   rb;
         private BoxCollider2D bc;
         public  Animator      anim;
@@ -57,7 +57,7 @@ namespace BoardEnemy
             bc = GetComponent<BoxCollider2D>();
             anim = GetComponent<Animator>();
 
-            machine = new StateMachine(this);
+            machine = new BoardStateMachine(this);
             machine.ChangeState(machine.Patrol);
         }
 

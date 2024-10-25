@@ -6,9 +6,9 @@ namespace BoardEnemy
 {
     public class BoardState
     {
-        protected StateMachine machine;
+        protected BoardStateMachine machine;
 
-        protected BoardState(StateMachine machine)
+        protected BoardState(BoardStateMachine machine)
         {
             this.machine = machine;
         }

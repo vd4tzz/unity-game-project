@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BoardEnemy
 {
-    public class StateMachine
+    public class BoardStateMachine
     {
         private BoardState currentState;
         public  BoardController enemy;
@@ -24,7 +24,7 @@ namespace BoardEnemy
         public BoardState Hit    => hit;
 
         // Constructor
-        public StateMachine(BoardController enemy)
+        public BoardStateMachine(BoardController enemy)
         {
             this.enemy = enemy;
 

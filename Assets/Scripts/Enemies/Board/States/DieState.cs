@@ -6,7 +6,7 @@ namespace BoardEnemy
 {
     public class DieState : BoardState
     {
-        public DieState(StateMachine machine) : base(machine) {}
+        public DieState(BoardStateMachine machine) : base(machine) {}
 
         public override void Enter()
         {

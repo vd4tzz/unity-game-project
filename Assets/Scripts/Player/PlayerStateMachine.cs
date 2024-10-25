@@ -6,7 +6,7 @@ namespace Player
 {
     public class PlayerStateMachine 
     {
-        private PlayerState currentState;
+        private IState currentState;
         public  PlayerController player;
 
         private PlayerState idleState;

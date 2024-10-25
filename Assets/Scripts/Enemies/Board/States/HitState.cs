@@ -7,7 +7,7 @@ namespace BoardEnemy
 {
     public class HitState : BoardState
     {
-        public HitState(StateMachine machine) : base(machine) {}
+        public HitState(BoardStateMachine machine) : base(machine) {}
 
         private float timer;
 

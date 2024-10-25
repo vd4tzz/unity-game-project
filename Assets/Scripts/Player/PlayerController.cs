@@ -26,7 +26,7 @@ namespace Player
         [SerializeField] float health = 100;
         [SerializeField] private float cooldown = 0.4f;
         private float damage;
-        [SerializeField] private float timer;
+        private float timer;
         private bool  isTakingDamage = false;
         private bool  canTakeDamage;
 
