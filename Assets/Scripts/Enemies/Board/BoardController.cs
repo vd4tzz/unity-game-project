@@ -5,25 +5,8 @@ using UnityEngine;
 
 namespace BoardEnemy
 {
-    public class BoardController : MonoBehaviour, IController
-    {
-        private BoardStateMachine machine;
-        private Rigidbody2D   rb;
-        private BoxCollider2D bc;
-        public  Animator      anim;
-
-
-        [Header("Health Setting")]
-        [SerializeField] float health = 40;
-        [SerializeField] private float cooldown = 0.4f;
-        private float damage;
-        private float timer;
-        private bool  isTakingDamage = false;
-        private bool  canTakeDamage;
-
-        public float Health => health;
-        public bool IsTakingDamage => isTakingDamage;
-        
+    public class BoardController : BaseController
+    {   
         
         [Header("Patrol Setting")]
         [SerializeField] private float movePatrolSpeed;
@@ -44,38 +27,35 @@ namespace BoardEnemy
         [SerializeField] private float chaseRange;
         [SerializeField] private float chaseSpeed;
         [SerializeField] private float attackRange;
-        [SerializeField] private float attackDamage;
+        [SerializeField] private int   attackDamage;
         private bool isChasing;
 
         public bool IsChasing => isChasing;
 
         
         
-        private void Awake()
+        protected override void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
-            bc = GetComponent<BoxCollider2D>();
-            anim = GetComponent<Animator>();
-
-            machine = new BoardStateMachine(this);
-            machine.ChangeState(machine.Patrol);
+            base.Awake();
         }
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+            machine = new BoardStateMachine(this);
             originalPosition = transform.position;
         }
 
         
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             Flip();
-            MinusHealth();
         }
 
-        void LateUpdate()
+        protected override void LateUpdate()
         {
-            machine.Update();
+            base.LateUpdate();
         }
 
         private void Flip()
@@ -88,8 +68,6 @@ namespace BoardEnemy
             {
                 transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
             }
-
-            // transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y);
         }
 
         
@@ -100,7 +78,6 @@ namespace BoardEnemy
                 if(transform.position.x > originalPosition.x + patrolDistance)
                 {
                     patrolDirection = Vector2.left;
-                    // Flip();
                 }
             }
             else
@@ -108,7 +85,6 @@ namespace BoardEnemy
                 if(transform.position.x < originalPosition.x - patrolDistance)
                 {
                     patrolDirection = Vector2.right;
-                    // Flip();
                 }
             }
 
@@ -117,21 +93,6 @@ namespace BoardEnemy
             isDetected = Physics2D.Raycast(transform.position, patrolDirection, detectRange, playerLayer);
         }
 
-        
-        // private bool DetectPlayer()
-        // {
-        //     if(transform.localScale.x > 0)
-        //     {
-        //         directionMoving = Vector2.right;
-        //     }
-        //     else 
-        //     {
-        //         directionMoving = Vector2.left;
-        //     }
-
-            
-        //     return Physics2D.Raycast(transform.position, directionMoving, detectRange, playerLayer);
-        // }  
 
         public void Stop()
         {
@@ -152,8 +113,6 @@ namespace BoardEnemy
             }
 
             GameObject player = circle.gameObject;
-            // Vector2 target = player.transform.position;
-            // int dir = (transform.position.x - player.transform.position.x > 0)? -1 : 0;
             if(transform.position.x - player.transform.position.x > 0)
             {
                 chaseDirection = Vector2.left;
@@ -172,39 +131,7 @@ namespace BoardEnemy
             RaycastHit2D ray = Physics2D.Raycast(transform.position, chaseDirection, attackRange, playerLayer);
             if(ray)
             {
-                ray.collider.GetComponent<IController>().TakeDamage(attackDamage);
-            }
-        }
-
-        public void DestroyObject()
-        {
-            Destroy(gameObject);
-        }
-
-        public void TakeDamage(float damage)
-        {
-            if(timer > 0) return;
-
-            isTakingDamage = true;
-            canTakeDamage  = true;
-            this.damage = damage;
-            timer = cooldown;
-        }
-
-        private void MinusHealth()
-        {
-            if(canTakeDamage)
-            {
-                health -= damage;
-                canTakeDamage = false;
-            }
-            if(timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
-            else
-            {
-                isTakingDamage = false;
+                ray.collider.GetComponent<IDamageable>().TakeDamage(attackDamage);
             }
         }
 

@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace BoardEnemy
 {
-    public class BoardStateMachine
+    public class BoardStateMachine : BaseStateMachine
     {
-        private BoardState currentState;
         public  BoardController enemy;
 
         // Board enemy states
@@ -30,24 +29,13 @@ namespace BoardEnemy
 
             patrol = new PatrolState(this);
             detect = new DetectState(this);
-            chase = new ChaseState(this);
+            chase  = new ChaseState(this);
             die    = new DieState(this);
             hit    = new HitState(this);
+        
+            currentState = patrol;
         }
 
-        // Method to change state
-        public void ChangeState(BoardState newState)
-        {
-            currentState?.Exit();
-            currentState = newState;
-            currentState.Enter();
-        }
-
-        // Method is called in game loop
-        public void Update()
-        {
-            currentState.Execute();
-        }
     }
 }
 

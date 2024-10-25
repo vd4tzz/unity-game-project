@@ -205,7 +205,7 @@ MonoBehaviour:
   chaseRange: 5.11
   chaseSpeed: 4.5
   attackRange: 0.52
-  attackDamage: 10
+  attackDamage: 1
   detect: 0
   chase: 0
   attack: 0

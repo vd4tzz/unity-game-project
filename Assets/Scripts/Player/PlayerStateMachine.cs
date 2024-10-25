@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerStateMachine 
+    public class PlayerStateMachine : BaseStateMachine
     {
-        private IState currentState;
         public  PlayerController player;
 
         private PlayerState idleState;
@@ -42,18 +41,6 @@ namespace Player
             
             // Initial State
             currentState = idleState;
-        }
-
-        public void ChangeState(PlayerState newState)
-        {
-            currentState?.Exit();
-            currentState = newState;
-            currentState.Enter();
-        }
-
-        public void Update()
-        {
-            currentState.Execute();
         }
     }
 }

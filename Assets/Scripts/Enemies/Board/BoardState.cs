@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BoardEnemy
 {
-    public class BoardState
+    public class BoardState : IState
     {
         protected BoardStateMachine machine;
 
