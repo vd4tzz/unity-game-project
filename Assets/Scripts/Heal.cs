@@ -5,13 +5,8 @@ using UnityEngine;
 
 public class HealPoint : MonoBehaviour
 {
-    
-    void Start()
-    {
-        
-    }
+    void Start() {}
 
-    
     private void OnTriggerEnter2D(Collider2D other)
     {
         GameObject obj = other.gameObject;

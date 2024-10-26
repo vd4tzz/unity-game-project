@@ -15,21 +15,20 @@ namespace BoardEnemy
         [SerializeField] private LayerMask playerLayer;
         private Vector2 patrolDirection = Vector2.right;
         private bool isDetected;
-        
         public bool IsDetected => isDetected;
 
         [Header("Detect Setting")]
         private float detectDuration = 0.3f;
         public  float DetectDuration => detectDuration;
 
-        [Header("Chase Setting")]
+        [Header("Chase & Attack Setting")]
         [SerializeField] private float chaseRange;
         [SerializeField] private float chaseSpeed;
         [SerializeField] private float attackRange;
         [SerializeField] private int   attackDamage;
+        private Vector2 chaseDirection;
         private bool isChasing;
-
-        public bool IsChasing => isChasing;
+        public  bool IsChasing => isChasing;
 
         
         
@@ -42,7 +41,6 @@ namespace BoardEnemy
         {
             base.Start();
             machine = new BoardStateMachine(this);
-            // originalPosition = transform.position;
             spawnPoint = transform.position;
         }
 
@@ -99,7 +97,7 @@ namespace BoardEnemy
             rb.velocity = Vector2.zero;
         }
 
-        Vector2 chaseDirection;
+        
         public void Chase()
         {
             // A circle to dectect player to chase player
