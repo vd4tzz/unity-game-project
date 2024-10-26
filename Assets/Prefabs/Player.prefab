@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  maxHealth: 0
+  maxHealth: 5
   health: 5
   cooldown: 0.4
   groundLayer:
