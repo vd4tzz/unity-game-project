@@ -173,7 +173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  health: 40
+  maxHealth: 4
+  health: 0
   cooldown: 0.4
   movePatrolSpeed: 1.9
   patrolDistance: 1.09
