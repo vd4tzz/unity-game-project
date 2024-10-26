@@ -14,7 +14,6 @@ namespace BoardEnemy
         [SerializeField] private float detectRange;
         [SerializeField] private LayerMask playerLayer;
         private Vector2 patrolDirection = Vector2.right;
-        private Vector2 originalPosition;
         private bool isDetected;
         
         public bool IsDetected => isDetected;
@@ -43,7 +42,8 @@ namespace BoardEnemy
         {
             base.Start();
             machine = new BoardStateMachine(this);
-            originalPosition = transform.position;
+            // originalPosition = transform.position;
+            spawnPoint = transform.position;
         }
 
         
@@ -75,14 +75,14 @@ namespace BoardEnemy
         {
             if(patrolDirection.x == 1)
             {
-                if(transform.position.x > originalPosition.x + patrolDistance)
+                if(transform.position.x > spawnPoint.x + patrolDistance)
                 {
                     patrolDirection = Vector2.left;
                 }
             }
             else
             {
-                if(transform.position.x < originalPosition.x - patrolDistance)
+                if(transform.position.x < spawnPoint.x - patrolDistance)
                 {
                     patrolDirection = Vector2.right;
                 }

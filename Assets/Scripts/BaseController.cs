@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BaseController : MonoBehaviour, IDamageable
@@ -7,9 +8,11 @@ public class BaseController : MonoBehaviour, IDamageable
     protected BaseStateMachine machine;
     protected Rigidbody2D   rb;
     protected BoxCollider2D bc;
+    protected Vector2 spawnPoint;
     public    Animator      anim;
 
     [Header("Health Setting")]
+    [SerializeField] protected float maxHealth;
     [SerializeField] protected float health;
     [SerializeField] protected float cooldown = 0.4f;
     protected int damage;
@@ -27,9 +30,11 @@ public class BaseController : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
     }
 
-    protected virtual void Start() {}
+    protected virtual void Start() 
+    { 
+        health = maxHealth;
+    }
 
-    
     protected virtual void Update()
     {
         _TakeDamage();
@@ -43,6 +48,17 @@ public class BaseController : MonoBehaviour, IDamageable
     public void DestroyObject()
     {
         Destroy(gameObject);
+    }
+
+    public void Respawn()
+    {
+        transform.position = spawnPoint;
+        health = maxHealth;
+    }
+
+    public void UpdateRespawn(Vector2 newSpawPoint)
+    {
+        spawnPoint = newSpawPoint;
     }
 
     public void TakeDamage(int damage)
@@ -66,5 +82,10 @@ public class BaseController : MonoBehaviour, IDamageable
         {
             isTakingDamage = false;
         }
+    }
+
+    public void Heal(int heal)
+    {
+        health += heal;
     }
 }

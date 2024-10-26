@@ -13,7 +13,7 @@ namespace Player
         {
             machine.player.anim.Play("Die");
             timer = machine.player.DieDuration;
-            machine.player.gameObject.layer = LayerMask.NameToLayer("Die (Player)");
+            machine.player.gameObject.layer = LayerMask.NameToLayer("Default");
         }
 
         public override void Execute()
@@ -24,14 +24,15 @@ namespace Player
             }
             else
             {
-                machine.player.DestroyObject();
+                machine.ChangeState(machine.Idle);
+                machine.player.Respawn();
             }
             
         }
 
         public override void Exit()
         {
-         
+            machine.player.gameObject.layer = LayerMask.NameToLayer("Player");
         }
     }
 }
