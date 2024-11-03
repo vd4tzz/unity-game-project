@@ -6,7 +6,7 @@ namespace Player
 {
     public class PlayerStateMachine : BaseStateMachine
     {
-        public  PlayerController player;
+        public PlayerController player;
 
         private PlayerState idleState;
         private PlayerState moveState;

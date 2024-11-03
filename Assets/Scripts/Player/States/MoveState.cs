@@ -22,18 +22,15 @@ namespace Player
             {
                 machine.ChangeState(machine.Idle);
             }
-
-            if(machine.player.SpaceInput)
+            else if(machine.player.SpaceInput)
             {
                 machine.ChangeState(machine.Jump);
             }
-
-            if(machine.player.LeftMouseInput)
+            else if(machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
             }
-
-            if(machine.player.Health <= 0)
+            else if(machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
             }

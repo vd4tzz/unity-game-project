@@ -7,18 +7,21 @@ using UnityEngine;
 namespace Player
 {
     public class PlayerController : BaseController
-    {
+    {   
+        #region Input Status Variables
         private float xInput;
-        private bool leftMouseInput;
-        private bool spaceInput;
+        public  float XInput => xInput;
 
-        public float XInput         => xInput;
-        public bool  LeftMouseInput => leftMouseInput;
-        public bool  SpaceInput     => spaceInput;        
+        private bool leftMouseInput;
+        public  bool  LeftMouseInput => leftMouseInput;
+
+        private bool spaceInput;
+        public  bool  SpaceInput => spaceInput;        
+        #endregion
 
         [Header("Ground Check Setting")]
         [SerializeField] private LayerMask groundLayer;
-        [SerializeField] private float     extraHeight;
+        [SerializeField] private float extraHeight;
         private bool isGrounded;
         public  bool IsGrounded => isGrounded;
 
@@ -27,11 +30,13 @@ namespace Player
 
         [Header("Jump Setting")]
         [SerializeField] private float jumpForce;
-        [SerializeField] private float jumpDuration;
+        [SerializeField] private float jumpDuration = 0.25f;
         public float JumpDuration => jumpDuration;
 
         [Header("Double Jump Setting")]
         [SerializeField] private float doubleJumpForce;
+        private bool canDoubleJump = true;
+        public bool CanDoubleJump => canDoubleJump;
         private float doubleJumpDuration = 0.1f; 
         public  float DoulbeJumpDuration => doubleJumpDuration;
 
@@ -68,6 +73,7 @@ namespace Player
 
             HandleInput();
             _IsGrounded();
+            HandleCanDoubleJump();
         }
 
         protected override void LateUpdate()
@@ -91,12 +97,11 @@ namespace Player
 
         }
 
-        
         public void Move()
         {
             rb.velocity = new Vector2(moveSpeed * xInput, rb.velocity.y);
 
-            // Flip character
+            // Flip character depend on xInput
             if(xInput > 0)
                 transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             else if(xInput < 0)
@@ -115,19 +120,44 @@ namespace Player
 
         public void DoubleJump()
         {
-            rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
+            if(canDoubleJump)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
+                canDoubleJump = false;
+            }
+        }
+
+        private void HandleCanDoubleJump()
+        {
+            if(isGrounded)
+            {
+                canDoubleJump = true;
+            }
         }
 
         public void Attack()
         {
-            rb.velocity = new Vector2(1 * transform.localScale.x, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
+            // horizontal speed is 1 but the direction depend on scale 
+            rb.velocity = new Vector2(1.5f * transform.localScale.x, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
+            // rb.velocity = new Vector2(rb.velocity.x/3, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
             
             Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
             foreach(Collider2D enemy in enemies)
             {
-                enemy.GetComponent<IDamageable>().TakeDamage(attackDamage);
+                enemy.GetComponent<ICombatEntity>().TakeDamage(attackDamage);
             }
 
+        }
+
+        public void Respawn()
+        {
+            transform.position = spawnPoint;
+            health = maxHealth;
+        }
+
+        public void UpdateRespawn(Vector2 newSpawPoint)
+        {
+            spawnPoint = newSpawPoint;
         }
 
         [Header("Debug Setting")]

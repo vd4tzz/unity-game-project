@@ -8,8 +8,6 @@ namespace Player
     {
         public FallState(PlayerStateMachine machine) : base(machine) {}
 
-        private bool canDoubleJump;
-
         public override void Enter()
         {
             // Debug.Log("Enter Fall");
@@ -24,22 +22,17 @@ namespace Player
 
             if(machine.player.IsGrounded)
             {
-                canDoubleJump = true;
                 machine.ChangeState(machine.Idle);
             }
-
-            if(machine.player.SpaceInput && canDoubleJump)
+            else if(machine.player.SpaceInput && machine.player.CanDoubleJump)
             {
                 machine.ChangeState(machine.DoubleJump);
-                canDoubleJump = false;
             }
-
-            if(machine.player.LeftMouseInput)
+            else if(machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
             }
-
-            if(machine.player.Health <= 0)
+            else if(machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
             }

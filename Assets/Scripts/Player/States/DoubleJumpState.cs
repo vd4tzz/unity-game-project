@@ -12,7 +12,7 @@ namespace Player
 
         public override void Enter()
         {
-            // Debug.Log("Enter DoubleJump");
+            Debug.Log("Enter DoubleJump");
             machine.player.anim.Play("DoubleJump");
             timer = machine.player.DoulbeJumpDuration;
         }

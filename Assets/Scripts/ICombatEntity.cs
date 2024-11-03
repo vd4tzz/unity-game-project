@@ -1,6 +1,6 @@
 
 
-public interface IDamageable
+public interface ICombatEntity
 {
     public void TakeDamage(int damage);
 }

@@ -15,11 +15,15 @@ namespace BoardEnemy
         [SerializeField] private LayerMask playerLayer;
         private Vector2 patrolDirection = Vector2.right;
         private bool isDetected;
-        public bool IsDetected => isDetected;
+        public  bool IsDetected => isDetected;
 
         [Header("Detect Setting")]
         private float detectDuration = 0.3f;
         public  float DetectDuration => detectDuration;
+
+        [Header("Hit Setting")]
+        private float hitDuration = 0.3f;
+        public  float HitDuaration => hitDuration;
 
         [Header("Chase & Attack Setting")]
         [SerializeField] private float chaseRange;
@@ -55,7 +59,7 @@ namespace BoardEnemy
         {
             base.LateUpdate();
         }
-
+        
         private void Flip()
         {
             if(rb.velocity.x > 0) 
@@ -125,11 +129,11 @@ namespace BoardEnemy
 
             isChasing = true;
 
-            // A ray to detect player to take damage on player
+            // A ray to detect player for damaging on player
             RaycastHit2D ray = Physics2D.Raycast(transform.position, chaseDirection, attackRange, playerLayer);
             if(ray)
             {
-                ray.collider.GetComponent<IDamageable>().TakeDamage(attackDamage);
+                ray.collider.GetComponent<ICombatEntity>().TakeDamage(attackDamage);
             }
         }
 

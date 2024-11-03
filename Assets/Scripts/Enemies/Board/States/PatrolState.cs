@@ -23,8 +23,7 @@ namespace BoardEnemy
             {
                 machine.ChangeState(machine.Detect);
             }
-            
-            if(machine.enemy.IsTakingDamage)
+            else if(machine.enemy.IsTakingDamage)
             {
                 machine.ChangeState(machine.Hit);
             }

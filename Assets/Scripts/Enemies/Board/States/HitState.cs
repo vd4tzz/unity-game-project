@@ -14,7 +14,7 @@ namespace BoardEnemy
         public override void Enter()
         {
             machine.enemy.anim.Play("Hit");
-            timer = 0.3f;
+            timer = machine.enemy.HitDuaration;
         }
 
         public override void Execute()

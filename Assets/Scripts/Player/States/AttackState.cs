@@ -20,6 +20,7 @@ namespace Player
         public override void Execute()
         {
             machine.player.Attack();
+
             if(timer > 0)
             {
                 timer -= Time.deltaTime;

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BaseController : MonoBehaviour, IDamageable
+public class BaseController : MonoBehaviour, ICombatEntity
 {
+    protected Vector2 spawnPoint;
     protected BaseStateMachine machine;
     protected Rigidbody2D   rb;
     protected BoxCollider2D bc;
-    protected Vector2 spawnPoint;
-    public    Animator      anim;
+    public Animator anim;
 
     [Header("Health Setting")]
     [SerializeField] protected float maxHealth;
@@ -18,8 +18,6 @@ public class BaseController : MonoBehaviour, IDamageable
     protected int damage;
     protected float healthTimer;
     protected bool  isTakingDamage = false;
-    // protected bool  canTakeDamage;
-
     public float Health => health;
     public bool  IsTakingDamage => isTakingDamage;
 
@@ -38,6 +36,7 @@ public class BaseController : MonoBehaviour, IDamageable
     protected virtual void Update()
     {
         _TakeDamage();
+        // machine.Update();
     }
 
     protected virtual void LateUpdate() 
@@ -48,17 +47,6 @@ public class BaseController : MonoBehaviour, IDamageable
     public void DestroyObject()
     {
         Destroy(gameObject);
-    }
-
-    public void Respawn()
-    {
-        transform.position = spawnPoint;
-        health = maxHealth;
-    }
-
-    public void UpdateRespawn(Vector2 newSpawPoint)
-    {
-        spawnPoint = newSpawPoint;
     }
 
     public void TakeDamage(int damage)
@@ -84,8 +72,8 @@ public class BaseController : MonoBehaviour, IDamageable
         }
     }
 
-    public void Heal(int heal)
+    public void Heal(int hp)
     {
-        health += heal;
+        health += hp;
     }
 }
