@@ -5,20 +5,21 @@ using UnityEngine;
 
 public class BaseController : MonoBehaviour, ICombatEntity
 {
-    protected Vector2 spawnPoint;
+    protected Vector3 spawnPoint;
+    public Vector3 SpawnPoint { get {return spawnPoint;} set {spawnPoint = value;} }
     protected BaseStateMachine machine;
     protected Rigidbody2D   rb;
     protected BoxCollider2D bc;
     public Animator anim;
 
     [Header("Health Setting")]
-    [SerializeField] protected float maxHealth;
-    [SerializeField] protected float health;
+    [SerializeField] protected int maxHealth;
+    [SerializeField] protected int health;
     [SerializeField] protected float cooldown = 0.4f;
     protected int damage;
     protected float healthTimer;
     protected bool  isTakingDamage = false;
-    public float Health => health;
+    public int Health => health;
     public bool  IsTakingDamage => isTakingDamage;
 
     protected virtual void Awake()
