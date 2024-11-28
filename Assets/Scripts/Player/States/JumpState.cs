@@ -48,7 +48,7 @@ namespace Player
 
         public override void Exit()
         {
-            // Debug.Log("Exit Jump");
+            Debug.Log("Exit Jump");
         }
     }
 }

@@ -50,6 +50,11 @@ public class BaseController : MonoBehaviour, ICombatEntity
         Destroy(gameObject);
     }
 
+    public void Stop()
+    {
+            rb.velocity = Vector2.zero;
+    }
+
     public void TakeDamage(int damage)
     {
         if(isTakingDamage) return;

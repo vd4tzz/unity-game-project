@@ -38,7 +38,7 @@ namespace Player
 
         public override void Exit()
         {
-            // Debug.Log("Exit DoubleJump");
+            Debug.Log("Exit DoubleJump");
         }
     }
 }

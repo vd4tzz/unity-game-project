@@ -13,6 +13,7 @@ namespace Player
         private PlayerState jumpState;
         private PlayerState fallState;
         private PlayerState dieState;
+        private PlayerState hitState;
         private PlayerState attackState;
         private PlayerState attackState2;
         private PlayerState doubleJumpState;
@@ -22,6 +23,7 @@ namespace Player
         public PlayerState Jump    => jumpState;
         public PlayerState Fall    => fallState;
         public PlayerState Die     => dieState;
+        public PlayerState Hit     => hitState;
         public PlayerState Attack  => attackState;
         public PlayerState Attack2 => attackState2;
         public PlayerState DoubleJump => doubleJumpState;
@@ -35,6 +37,7 @@ namespace Player
             jumpState    = new JumpState(this);
             fallState    = new FallState(this);
             dieState     = new DieState(this);
+            // hitState     = new HitState(this);
             attackState  = new AttackState(this);
             attackState2 = new AttackState2(this);
             doubleJumpState = new DoubleJumpState(this);

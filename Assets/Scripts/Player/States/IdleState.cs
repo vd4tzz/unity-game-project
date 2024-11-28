@@ -10,7 +10,7 @@ namespace Player
 
         public override void Enter()
         {
-            // Debug.Log("Enter Idle");
+            Debug.Log("Enter Idle");
             machine.player.anim.Play("Idle");
         }
 
@@ -28,6 +28,10 @@ namespace Player
             {
                 machine.ChangeState(machine.Attack);
             }
+            // else if(machine.player.IsTakingDamage)
+            // {
+            //     machine.ChangeState(machine.Hit);
+            // }
             else if(machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
@@ -36,7 +40,7 @@ namespace Player
 
         public override void Exit()
         {
-            // Debug.Log("Exit Idle");
+            Debug.Log("Exit Idle");
         }
     }
 }

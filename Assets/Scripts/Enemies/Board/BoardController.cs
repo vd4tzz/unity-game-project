@@ -94,13 +94,6 @@ namespace BoardEnemy
 
             isDetected = Physics2D.Raycast(transform.position, patrolDirection, detectRange, playerLayer);
         }
-
-
-        public void Stop()
-        {
-            rb.velocity = Vector2.zero;
-        }
-
         
         public void Chase()
         {

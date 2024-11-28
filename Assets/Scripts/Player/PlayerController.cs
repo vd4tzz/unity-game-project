@@ -55,9 +55,13 @@ namespace Player
         private float dieDuration = 2.7f;
         public  float DieDuration => dieDuration;
 
+        public SpriteRenderer spriteRenderer;
+
         protected override void Awake()
         {
             base.Awake();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.color = new Color(1, 0.58f, 0.58f, 1);
         }
 
 
@@ -74,6 +78,12 @@ namespace Player
             HandleInput();
             _IsGrounded();
             HandleCanDoubleJump();
+
+            if(isTakingDamage)
+            {
+                
+                Debug.Log("Gia3ro");
+            }
         }
 
         protected override void LateUpdate()

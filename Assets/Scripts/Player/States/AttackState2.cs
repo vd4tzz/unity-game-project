@@ -12,7 +12,7 @@ namespace Player
 
         public override void Enter()
         {
-            // Debug.Log("Enter Attack2");
+            Debug.Log("Enter Attack2");
             timer = machine.player.AttackDuration;
             machine.player.anim.Play("Attack2");
         }
@@ -51,7 +51,7 @@ namespace Player
 
         public override void Exit()
         {
-            // Debug.Log("Exit Attack2");
+            Debug.Log("Exit Attack2");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Player
         
         public override void Enter()
         {
-            // Debug.Log("Enter Move");
+            Debug.Log("Enter Move");
             machine.player.anim.Play("Move");
         }
 
@@ -30,6 +30,10 @@ namespace Player
             {
                 machine.ChangeState(machine.Attack);
             }
+            // else if(machine.player.IsTakingDamage)
+            // {
+            //     machine.ChangeState(machine.Hit);
+            // }
             else if(machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
@@ -38,7 +42,7 @@ namespace Player
 
         public override void Exit()
         {
-            // Debug.Log("Exit Move");
+            Debug.Log("Exit Move");
         }
     }
 }
