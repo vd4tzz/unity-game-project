@@ -28,13 +28,13 @@ namespace Player
             {
                 machine.ChangeState(machine.Attack);
             }
-            // else if(machine.player.IsTakingDamage)
-            // {
-            //     machine.ChangeState(machine.Hit);
-            // }
             else if(machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
+            }
+            else if(machine.player.IsTakingDamage)
+            {
+                machine.ChangeState(machine.Hit);
             }
         }
 

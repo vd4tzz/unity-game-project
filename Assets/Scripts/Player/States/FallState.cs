@@ -19,7 +19,6 @@ namespace Player
             machine.player.Fall();
             machine.player.Move();
 
-
             if(machine.player.IsGrounded)
             {
                 machine.ChangeState(machine.Idle);
@@ -36,11 +35,16 @@ namespace Player
             {
                 machine.ChangeState(machine.Die);
             }
+            else if(machine.player.IsTakingDamage)
+            {
+                machine.ChangeState(machine.Hit);
+            }
         }
 
         public override void Exit()
         {
             Debug.Log("Exit Fall");
+            machine.player.Stop();
         }
     }
 }

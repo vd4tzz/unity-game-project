@@ -6,20 +6,25 @@ using UnityEngine;
 public class BaseController : MonoBehaviour, ICombatEntity
 {
     protected Vector3 spawnPoint;
+
     public Vector3 SpawnPoint { get {return spawnPoint;} set {spawnPoint = value;} }
+
     protected BaseStateMachine machine;
+
     protected Rigidbody2D   rb;
+
     protected BoxCollider2D bc;
+    
     public Animator anim;
 
     [Header("Health Setting")]
     [SerializeField] protected int maxHealth;
-    [SerializeField] protected int health;
+    [SerializeField] protected int currentHealth;
     [SerializeField] protected float cooldown = 0.4f;
     protected int damage;
     protected float healthTimer;
     protected bool  isTakingDamage = false;
-    public int Health => health;
+    public int Health => currentHealth;
     public bool  IsTakingDamage => isTakingDamage;
 
     protected virtual void Awake()
@@ -31,13 +36,12 @@ public class BaseController : MonoBehaviour, ICombatEntity
 
     protected virtual void Start() 
     { 
-        health = maxHealth;
+        currentHealth = maxHealth;
     }
 
     protected virtual void Update()
     {
-        _TakeDamage();
-        // machine.Update();
+        DoTakeDamage();
     }
 
     protected virtual void LateUpdate() 
@@ -45,32 +49,58 @@ public class BaseController : MonoBehaviour, ICombatEntity
         machine.Update();
     }
 
+    /// <summary>
+    /// Get the direction of the object
+    /// </summary>
+    /// 
+    /// <returns>
+    ///  1 if the object is facing right, -1 if the object is facing left.
+    /// </returns>
+    public int GetDirection() 
+    {
+        return transform.localScale.x > 0 ? 1 : -1;
+    }
+
+    /// <summary>
+    /// Destroy a GameObject
+    /// </summary>
     public void DestroyObject()
     {
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Make the velocity of the object equal to zero
+    /// </summary>
     public void Stop()
     {
-            rb.velocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
     }
 
+
+    /// <summary>
+    /// This method is used by another object when it want to cause damage on this object
+    /// </summary>
+    /// <param name="damage">The amount of damage the other object want to cause</param>
     public void TakeDamage(int damage)
     {
         if(isTakingDamage) return;
 
-        health -= damage;
+        currentHealth -= damage;
         this.damage    = damage;
         healthTimer    = cooldown;
         isTakingDamage = true;
     }
 
-    private void _TakeDamage()
+    /// <summary>
+    /// This method is called by MonoBehaviour.Update() to manage cooldown
+    /// time between TakeDamage() calls
+    /// </summary>
+    private void DoTakeDamage()
     {
         if(healthTimer > 0)
         {
             healthTimer -= Time.deltaTime;
-
         }
         else
         {
@@ -78,8 +108,12 @@ public class BaseController : MonoBehaviour, ICombatEntity
         }
     }
 
+    /// <summary>
+    /// This method is used for adding health 
+    /// </summary>
+    /// <param name="hp"></param>
     public void Heal(int hp)
     {
-        health += hp;
+        currentHealth += hp;
     }
 }

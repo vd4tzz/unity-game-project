@@ -190,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   maxHealth: 4
-  health: 0
+  currentHealth: 0
   cooldown: 0.4
   movePatrolSpeed: 1.9
   patrolDistance: 1.09
@@ -378,7 +378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   maxHealth: 4
-  health: 0
+  currentHealth: 0
   cooldown: 0.4
   movePatrolSpeed: 1.9
   patrolDistance: 1.09
@@ -977,6 +977,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3450182614304116004, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
+      propertyPath: m_GravityScale
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5329538554579880869, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.865123
@@ -1016,6 +1020,22 @@ PrefabInstance:
     - target: {fileID: 5329538554579880869, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618556513461153663, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
+      propertyPath: m_Size.y
+      value: 0.8818477
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618556513461153663, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618556513461153663, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.05907616
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618556513461153663, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8370469554555764367, guid: bbb8d3eceb24295bdaa2e4c6a14d21a7, type: 3}
       propertyPath: m_Name
@@ -1138,9 +1158,25 @@ PrefabInstance:
       propertyPath: obj
       value: 
       objectReference: {fileID: 1073317741614723928, guid: a7248db42674faa1c92f1b6238adb5ca, type: 3}
+    - target: {fileID: 8059119732702942143, guid: 5c3866674ed3259da98f1b7633f130db, type: 3}
+      propertyPath: maxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8314286619851278628, guid: 5c3866674ed3259da98f1b7633f130db, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380901209539192784, guid: 5c3866674ed3259da98f1b7633f130db, type: 3}
+      propertyPath: m_Size.y
+      value: 1.505521
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380901209539192784, guid: 5c3866674ed3259da98f1b7633f130db, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0027605593
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380901209539192784, guid: 5c3866674ed3259da98f1b7633f130db, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

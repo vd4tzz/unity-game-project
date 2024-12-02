@@ -6,9 +6,10 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerController : BaseController
+    public class PlayerController : BaseController, ICombatEntity
     {   
         #region Input Status Variables
+
         private float xInput;
         public  float XInput => xInput;
 
@@ -16,7 +17,8 @@ namespace Player
         public  bool  LeftMouseInput => leftMouseInput;
 
         private bool spaceInput;
-        public  bool  SpaceInput => spaceInput;        
+        public  bool  SpaceInput => spaceInput;   
+
         #endregion
 
         [Header("Ground Check Setting")]
@@ -55,13 +57,11 @@ namespace Player
         private float dieDuration = 2.7f;
         public  float DieDuration => dieDuration;
 
-        public SpriteRenderer spriteRenderer;
-
+        public PlayerStateMachine Machine => (PlayerStateMachine)machine;
+        
         protected override void Awake()
         {
             base.Awake();
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.color = new Color(1, 0.58f, 0.58f, 1);
         }
 
 
@@ -76,14 +76,9 @@ namespace Player
             base.Update();
 
             HandleInput();
-            _IsGrounded();
+            CheckedIsGrounded();
             HandleCanDoubleJump();
 
-            if(isTakingDamage)
-            {
-                
-                Debug.Log("Gia3ro");
-            }
         }
 
         protected override void LateUpdate()
@@ -99,7 +94,7 @@ namespace Player
             leftMouseInput = Input.GetMouseButtonDown(0);
         }
 
-        void _IsGrounded()
+        void CheckedIsGrounded()
         {
             RaycastHit2D boxCast = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.down, extraHeight, groundLayer);
             
@@ -120,7 +115,8 @@ namespace Player
 
         public void Fall()
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + Physics2D.gravity.y * multiplier * Time.deltaTime);
+            // rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + Physics2D.gravity.y * multiplier * Time.deltaTime);
+            rb.velocity += new Vector2(0, Physics2D.gravity.y * multiplier * Time.deltaTime);
         }
 
         public void Jump()
@@ -147,8 +143,8 @@ namespace Player
 
         public void Attack()
         {
-            // horizontal speed is 1 but the direction depend on scale 
-            rb.velocity = new Vector2(1.5f * transform.localScale.x, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
+            
+            rb.velocity = new Vector2(1.5f * GetDirection(), rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
             // rb.velocity = new Vector2(rb.velocity.x/3, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
             
             Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
@@ -159,10 +155,25 @@ namespace Player
 
         }
 
+        int attackedDirection = 0;
+        public int AttackedDirection { get{return attackedDirection;} set{attackedDirection = value;} }
+
+        public void SetForce(float x, float y)
+        {
+            rb.AddForce(new Vector2(x, y), ForceMode2D.Impulse);
+        }
+
+        public void SetVelocity(float x, float y)
+        {
+            rb.velocity = new Vector2(x, y);
+        }
+
+       
+
         public void Respawn()
         {
             transform.position = spawnPoint;
-            health = maxHealth;
+            currentHealth = maxHealth;
         }
 
         public void UpdateRespawn(Vector2 newSpawPoint)

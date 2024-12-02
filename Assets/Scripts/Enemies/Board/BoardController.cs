@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 namespace BoardEnemy
@@ -34,8 +35,7 @@ namespace BoardEnemy
         private bool isChasing;
         public  bool IsChasing => isChasing;
 
-        
-        
+
         protected override void Awake()
         {
             base.Awake();
@@ -93,7 +93,9 @@ namespace BoardEnemy
             rb.velocity = patrolDirection * movePatrolSpeed;            
 
             isDetected = Physics2D.Raycast(transform.position, patrolDirection, detectRange, playerLayer);
+            isDetected |= Physics2D.Raycast(transform.position, Vector2.up, detectRange, playerLayer);
         }
+
         
         public void Chase()
         {
@@ -126,7 +128,18 @@ namespace BoardEnemy
             RaycastHit2D ray = Physics2D.Raycast(transform.position, chaseDirection, attackRange, playerLayer);
             if(ray)
             {
-                ray.collider.GetComponent<ICombatEntity>().TakeDamage(attackDamage);
+                PlayerController playerEntity = ray.collider.GetComponent<PlayerController>();
+                playerEntity.AttackedDirection = GetDirection();
+                playerEntity.TakeDamage(attackDamage);
+                
+            }
+
+            ray = Physics2D.Raycast(transform.position, Vector2.up, attackRange, playerLayer);
+            if(ray)
+            {
+                PlayerController playerEntity = ray.collider.GetComponent<PlayerController>();
+                playerEntity.AttackedDirection = GetDirection();
+                playerEntity.TakeDamage(attackDamage);
             }
         }
 
