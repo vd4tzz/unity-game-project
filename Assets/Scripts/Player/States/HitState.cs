@@ -12,8 +12,7 @@ namespace Player
 
         public override void Enter()
         {
-            machine.player.anim.Play("Idle");
-            Debug.Log("Enter Hit");
+            machine.player.anim.Play("Hit");
             machine.player.Stop();
             machine.player.SetForce(8 * machine.player.AttackedDirection, 3);
             timer = 0.6f;
@@ -24,7 +23,6 @@ namespace Player
             if(timer > 0)
             {
                 timer -= Time.deltaTime;
-                Debug.Log("7gao");
             }
             else
                 machine.ChangeState(machine.Idle);

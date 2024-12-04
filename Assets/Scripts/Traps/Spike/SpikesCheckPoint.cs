@@ -22,6 +22,8 @@ public class SpikesCheckPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if(collider.gameObject.CompareTag("Player") == false) return;
+        
         foreach(Spike spike in spikes)
         {
             spike?.Fall();

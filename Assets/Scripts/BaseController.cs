@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BaseController : MonoBehaviour, ICombatEntity, ISaveLoadEntity
+public class BaseController : MonoBehaviour, ICombatEntity
 {
     protected Vector3 spawnPoint;
 

@@ -182,8 +182,6 @@ namespace Player
             rb.velocity = new Vector2(x, y);
         }
 
-       
-
         public void Respawn()
         {
             transform.position = spawnPoint;
