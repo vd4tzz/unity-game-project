@@ -15,7 +15,7 @@ namespace Player
             machine.player.anim.Play("Idle");
             Debug.Log("Enter Hit");
             machine.player.Stop();
-            machine.player.SetVelocity(8 * machine.player.AttackedDirection, 3);
+            machine.player.SetForce(8 * machine.player.AttackedDirection, 3);
             timer = 0.6f;
         }
 

@@ -8,8 +8,7 @@ namespace Player
 {
     public class PlayerController : BaseController, ICombatEntity
     {   
-        #region Input Status Variables
-
+        #region Input status variables
         private float xInput;
         public  float XInput => xInput;
 
@@ -18,33 +17,44 @@ namespace Player
 
         private bool spaceInput;
         public  bool  SpaceInput => spaceInput;   
-
         #endregion
 
+        #region Ground Check variables
         [Header("Ground Check Setting")]
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private float extraHeight;
         private bool isGrounded;
         public  bool IsGrounded => isGrounded;
+        #endregion
 
+        #region Move Variables
         [Header("Move Setting")]
         [SerializeField] private float moveSpeed;
+        #endregion
 
+        #region Jump variables
         [Header("Jump Setting")]
         [SerializeField] private float jumpForce;
+
         [SerializeField] private float jumpDuration = 0.25f;
         public float JumpDuration => jumpDuration;
+        #endregion
 
+        #region Double jump variables
         [Header("Double Jump Setting")]
         [SerializeField] private float doubleJumpForce;
         private bool canDoubleJump = true;
         public bool CanDoubleJump => canDoubleJump;
         private float doubleJumpDuration = 0.1f; 
         public  float DoulbeJumpDuration => doubleJumpDuration;
+        #endregion
 
+        #region Fall variables
         [Header("Fall Setting")]
         [SerializeField] private float multiplier;
+        #endregion
 
+        #region Attack variables
         [Header("Attack Setting")]
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange;
@@ -52,12 +62,22 @@ namespace Player
         [SerializeField] private int attackDamage;
         private float attackDuration = 0.35f; 
         public  float AttackDuration => attackDuration;
+        #endregion
 
+        #region Die variables
         [Header("Die Setting")]
         private float dieDuration = 2.7f;
         public  float DieDuration => dieDuration;
+        #endregion
 
-        public PlayerStateMachine Machine => (PlayerStateMachine)machine;
+        #region 
+        private int attackedDirection;
+        public  int AttackedDirection 
+        { 
+            get{return attackedDirection;} 
+            set{attackedDirection = value;} 
+        }
+        #endregion
         
         protected override void Awake()
         {
@@ -99,7 +119,6 @@ namespace Player
             RaycastHit2D boxCast = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.down, extraHeight, groundLayer);
             
             isGrounded = (boxCast)? true : false;
-
         }
 
         public void Move()
@@ -115,8 +134,7 @@ namespace Player
 
         public void Fall()
         {
-            // rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + Physics2D.gravity.y * multiplier * Time.deltaTime);
-            rb.velocity += new Vector2(0, Physics2D.gravity.y * multiplier * Time.deltaTime);
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + Physics2D.gravity.y * multiplier * Time.deltaTime);
         }
 
         public void Jump()
@@ -145,7 +163,6 @@ namespace Player
         {
             
             rb.velocity = new Vector2(1.5f * GetDirection(), rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
-            // rb.velocity = new Vector2(rb.velocity.x/3, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
             
             Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
             foreach(Collider2D enemy in enemies)
@@ -154,9 +171,6 @@ namespace Player
             }
 
         }
-
-        int attackedDirection = 0;
-        public int AttackedDirection { get{return attackedDirection;} set{attackedDirection = value;} }
 
         public void SetForce(float x, float y)
         {
@@ -189,6 +203,8 @@ namespace Player
             {
                 Gizmos.DrawWireSphere(attackPoint.position, attackRange);
             }
+
+            // Gizmos.DrawWireCube(bc.bounds.center, bc.bounds.size);
             
         }
     }
