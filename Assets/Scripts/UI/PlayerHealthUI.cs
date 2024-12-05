@@ -23,7 +23,7 @@ public class PlayerHealthUI : MonoBehaviour
     {
         maxHealth     = player.Health;
         currentHealth = maxHealth;
-
+        
         hearts = new List<Image>();
         for(int i = 0; i < maxHealth; i++)
         {

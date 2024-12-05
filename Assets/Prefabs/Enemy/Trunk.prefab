@@ -162,6 +162,7 @@ MonoBehaviour:
   bulletDamage: 1
   bulletSpeed: 5
   timeBetween2Bullet: 0.8
+  coinObj: {fileID: 2314420732777144905, guid: 75e85cea21c5391728676ce27f981a64, type: 3}
 --- !u!61 &4480816424070651601
 BoxCollider2D:
   m_ObjectHideFlags: 0

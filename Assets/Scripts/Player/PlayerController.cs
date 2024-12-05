@@ -70,13 +70,19 @@ namespace Player
         public  float DieDuration => dieDuration;
         #endregion
 
-        #region 
+        #region Attacked variables
         private int attackedDirection;
         public  int AttackedDirection 
         { 
             get{return attackedDirection;} 
             set{attackedDirection = value;} 
         }
+        #endregion
+
+        #region Coin variables
+        [Header("Coin Setting")]
+        public int coin;
+        public int Coin { get{ return coin;} set{coin = value;} }
         #endregion
         
         protected override void Awake()

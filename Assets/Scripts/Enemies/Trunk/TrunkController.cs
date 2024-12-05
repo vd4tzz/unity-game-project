@@ -6,21 +6,32 @@ namespace Trunk
 {
     public class TrunkController : BaseController
     {   
+        #region Set direction for Trunk
         [Header("Direction")]
         [SerializeField] private Facing leftOrRight = Facing.Right;
+        #endregion
 
+        #region Detect variables
         [Header("Detect Setting")]
         [SerializeField] private float distanceDetect;
         [SerializeField] private LayerMask playerLayer;
         public bool isDetect = false;
         public bool IsDetect => isDetect;
+        #endregion
 
+        #region Attack variables
         [Header("Attack Setting")]
         [SerializeField] private TrunkBullet bullet;
         [SerializeField] private int bulletDamage;
         [SerializeField] private int bulletSpeed;
         [SerializeField] private float timeBetween2Bullet;
         private float timer = 0;
+        #endregion
+
+        #region Coin dropped afted death variable
+        [Header("Coin Setting")]
+        [SerializeField] private Coin coinObj;
+        #endregion
 
         protected override void Awake()
         {
@@ -71,6 +82,11 @@ namespace Trunk
             bulletObj.Damage = bulletDamage;
             bulletObj.Speed = bulletSpeed;
             bulletObj?.Attack((int)leftOrRight);
+        }
+
+        public void InstantiateCoin()
+        {
+            Instantiate(coinObj, transform.position, Quaternion.identity);
         }
 
         void OnDrawGizmos()

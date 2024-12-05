@@ -15,6 +15,7 @@ namespace BoardEnemy
 
         public override void Execute()
         {
+            machine.enemy.InstantiateCoin();
             machine.enemy.DestroyObject();
         }
 

@@ -7,6 +7,7 @@ namespace BeeEnemy
 {
     public class BeeController : BaseController
     {
+        #region Patrol variables
         [Header("Patrol Setting")]
         [SerializeField] private float movePatrolSpeed;
         [SerializeField] private float patrolDistance;
@@ -16,11 +17,15 @@ namespace BeeEnemy
         private Vector2 patrolDirection = Vector2.right;
         private bool isDetected;
         public  bool IsDetected => isDetected;
+        #endregion
 
+        #region Detect variables
         [Header("Detect Setting")]
         private float detectDuration = 1f;
         public  float DetectDuration => detectDuration;
+        #endregion
 
+        #region Chase & Attack variables
         [Header("Chase & Attack Setting")]
         [SerializeField] private float chaseRange;
         [SerializeField] private float chaseSpeed;
@@ -29,9 +34,8 @@ namespace BeeEnemy
         private Vector2 chaseDirection;
         private bool isChasing;
         public  bool IsChasing => isChasing;
-
-        Vector2 markedPoint;
-        
+        private Vector2 markedPoint;
+        #endregion
         
 
 
@@ -72,34 +76,19 @@ namespace BeeEnemy
 
         public void Patrol()
         {
-            if(patrolDirection.x == 1)
+            
+            if(transform.position.x > spawnPoint.x + patrolDistance)
             {
-                if(transform.position.x > spawnPoint.x + patrolDistance)
-                {
-                    patrolDirection = Vector2.left;
-                }
+                patrolDirection = Vector2.left;
             }
-            else
+            else if(transform.position.x < spawnPoint.x - patrolDistance)
             {
-                if(transform.position.x < spawnPoint.x - patrolDistance)
-                {
-                    patrolDirection = Vector2.right;
-                }
-            }
-
-            if(transform.position.y < spawnPoint.y - 1.1f)
-            {
-                patrolDirection = new Vector2(patrolDirection.x, 1);
-            }
-            else if(transform.position.y > spawnPoint.y + 1.1f)
-            {
-                patrolDirection = new Vector2(patrolDirection.x, -1);
+                patrolDirection = Vector2.right;
             }
 
             rb.velocity = patrolDirection * movePatrolSpeed;     
 
             Collider2D player = Physics2D.OverlapCircle(transform.position, detectRange, playerLayer);    
-
             if(player)
             {
                 isDetected = true;
@@ -110,22 +99,10 @@ namespace BeeEnemy
             {
                 isDetected = false;
             }
-
-            // isDetected = Physics2D.Raycast(transform.position, patrolDirection, detectRange, playerLayer);
-            // isDetected |= Physics2D.Raycast(transform.position, Vector2.up, detectRange, playerLayer);
         }
 
         public void Chase()
         {
-            // Collider2D circle = Physics2D.OverlapCircle(transform.position, chaseRange, playerLayer);
-            // if(circle == null)
-            // {
-            //     isChasing = false;
-                
-            //     // If player is not in chase range
-            //     return; 
-            // }
-
             if(isChasing == false) return;
 
             // GameObject player = circle.gameObject;
@@ -142,7 +119,7 @@ namespace BeeEnemy
 
             rb.velocity = new Vector2(dX * vX, dY * vY);
 
-            RaycastHit2D hit = Physics2D.BoxCast(bc.bounds.center , bc.bounds.size, 0, Vector2.down, 0.2f, groundLayer);
+            RaycastHit2D hit = Physics2D.BoxCast(bc.bounds.center , bc.bounds.size, 0, Vector2.down, 0.5f, groundLayer);
             RaycastHit2D p = Physics2D.BoxCast(bc.bounds.center , bc.bounds.size, 0, new Vector2(GetDirection(), 0), 0.1f, playerLayer);
 
             if(p)

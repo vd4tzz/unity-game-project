@@ -32,11 +32,13 @@ public class BaseController : MonoBehaviour, ICombatEntity
         rb   = GetComponent<Rigidbody2D>();
         bc   = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
+
+        currentHealth = maxHealth;
     }
 
     protected virtual void Start() 
     { 
-        currentHealth = maxHealth;
+        
     }
 
     protected virtual void Update()

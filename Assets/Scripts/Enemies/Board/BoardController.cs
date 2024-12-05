@@ -8,7 +8,7 @@ namespace BoardEnemy
 {
     public class BoardController : BaseController
     {   
-        
+        #region Patrol variables
         [Header("Patrol Setting")]
         [SerializeField] private float movePatrolSpeed;
         [SerializeField] private float patrolDistance;
@@ -17,15 +17,21 @@ namespace BoardEnemy
         private Vector2 patrolDirection = Vector2.right;
         private bool isDetected;
         public  bool IsDetected => isDetected;
-
+        #endregion
+        
+        #region Detect variables
         [Header("Detect Setting")]
         private float detectDuration = 0.3f;
         public  float DetectDuration => detectDuration;
+        #endregion
 
+        #region Hit variables
         [Header("Hit Setting")]
         private float hitDuration = 0.3f;
         public  float HitDuaration => hitDuration;
+        #endregion
 
+        #region Chase & Attack variables
         [Header("Chase & Attack Setting")]
         [SerializeField] private float chaseRange;
         [SerializeField] private float chaseSpeed;
@@ -34,7 +40,12 @@ namespace BoardEnemy
         private Vector2 chaseDirection;
         private bool isChasing;
         public  bool IsChasing => isChasing;
+        #endregion
 
+        #region Coin dropped aftef death variables
+        [Header("Coin Setting")]
+        [SerializeField] private Coin coinObj;
+        #endregion
 
         protected override void Awake()
         {
@@ -92,6 +103,7 @@ namespace BoardEnemy
 
             rb.velocity = patrolDirection * movePatrolSpeed;            
 
+            // Raycast is used to detect players horizontally and vertically
             isDetected = Physics2D.Raycast(transform.position, patrolDirection, detectRange, playerLayer);
             isDetected |= Physics2D.Raycast(transform.position, Vector2.up, detectRange, playerLayer);
         }
@@ -99,14 +111,13 @@ namespace BoardEnemy
         
         public void Chase()
         {
-            // A circle to dectect player to chase player
+            // If player in circle, chase the player
             Collider2D circle = Physics2D.OverlapCircle(transform.position, chaseRange, playerLayer);
             if(circle == null)
             {
                 isChasing = false;
                 
-                // If player is not in chase range
-                return; 
+                return; // If player is not in chase range, end function 
             }
 
             GameObject player = circle.gameObject;
@@ -124,7 +135,7 @@ namespace BoardEnemy
 
             isChasing = true;
 
-            // A ray to detect player for damaging on player
+            // A ray to detect player for damaging on player horizontally
             RaycastHit2D ray = Physics2D.Raycast(transform.position, chaseDirection, attackRange, playerLayer);
             if(ray)
             {
@@ -134,6 +145,7 @@ namespace BoardEnemy
                 
             }
 
+            // Dectect vertically
             ray = Physics2D.Raycast(transform.position, Vector2.up, attackRange, playerLayer);
             if(ray)
             {
@@ -141,6 +153,12 @@ namespace BoardEnemy
                 playerEntity.AttackedDirection = GetDirection();
                 playerEntity.TakeDamage(attackDamage);
             }
+        }
+
+        // Coin dropped after death
+        public void InstantiateCoin()
+        {
+            Instantiate(coinObj, transform.position, Quaternion.identity);
         }
 
         [Header("Debug setting")]
