@@ -114,6 +114,7 @@ public class BaseController : MonoBehaviour, ICombatEntity
     /// <param name="hp"></param>
     public void Heal(int hp)
     {
-        currentHealth += hp;
+        if(currentHealth < maxHealth)
+            currentHealth += hp;
     }
 }
