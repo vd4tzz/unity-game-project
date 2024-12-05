@@ -6,7 +6,7 @@ namespace Player
 {
     public class JumpState : PlayerState
     {
-        public JumpState(PlayerStateMachine machine) : base(machine) {}
+        public JumpState(PlayerStateMachine machine) : base(machine) { }
 
         private float jumpTimer;
 
@@ -23,7 +23,7 @@ namespace Player
             machine.player.Move();
 
 
-            if(jumpTimer > 0)
+            if (jumpTimer > 0)
             {
                 jumpTimer -= Time.deltaTime;
             }
@@ -32,21 +32,21 @@ namespace Player
                 machine.ChangeState(machine.Fall);
             }
 
-            if(machine.player.SpaceInput)
+            if (machine.player.SpaceInput)
             {
                 machine.ChangeState(machine.DoubleJump);
             }
 
-            if(machine.player.LeftMouseInput)
+            if (machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
             }
 
-            if(machine.player.Health <= 0)
+            if (machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
             }
-        
+
         }
 
         public override void Exit()
