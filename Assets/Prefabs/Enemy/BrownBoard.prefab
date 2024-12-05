@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   maxHealth: 4
-  health: 0
+  currentHealth: 0
   cooldown: 0.4
   movePatrolSpeed: 1.9
   patrolDistance: 1.09
@@ -207,6 +207,7 @@ MonoBehaviour:
   chaseSpeed: 4.5
   attackRange: 0.52
   attackDamage: 1
+  coinObj: {fileID: 2314420732777144905, guid: 75e85cea21c5391728676ce27f981a64, type: 3}
   detect: 0
   chase: 0
   attack: 0

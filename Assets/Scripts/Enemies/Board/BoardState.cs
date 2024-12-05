@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace BoardEnemy
 {
-    public class BoardState : IState
+    public class BoardState : BaseState
     {
         protected BoardStateMachine machine;
 
@@ -12,10 +10,6 @@ namespace BoardEnemy
         {
             this.machine = machine;
         }
-        
-        public virtual void Enter() {}
-        public virtual void Execute() {}
-        public virtual void Exit() {}
     }
 }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Trunk
 {
-    public abstract class TrunkState : IState
+    public abstract class TrunkState : BaseState
     {
         protected TrunkStateMachine machine;
 
@@ -12,9 +12,5 @@ namespace Trunk
         {
             this.machine = machine;
         }
-
-        public abstract void Enter();
-        public abstract void Execute();
-        public abstract void Exit();
     }
 }

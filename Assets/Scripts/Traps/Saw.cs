@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class Saw : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class Saw : MonoBehaviour
 
     private Vector2 direction = Vector2.left;
 
-    void Start()
+    private void Start()
     {
         bc = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
@@ -24,7 +23,7 @@ public class Saw : MonoBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         if(movingStyle == MovingStyle.Horizontal)
             HorizontalMove();

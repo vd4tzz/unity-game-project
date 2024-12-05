@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using BeeEnemy;
 using UnityEngine;
+
 
 namespace BeeEnemy
 {

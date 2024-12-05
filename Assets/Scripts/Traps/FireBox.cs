@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using Player;
 using UnityEngine;
+
 
 public class FireBox : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class FireBox : MonoBehaviour
     private float timer;
     public bool isFire;
 
-    void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
         bc = GetComponent<BoxCollider2D>();
@@ -28,7 +27,7 @@ public class FireBox : MonoBehaviour
         animator.Play("Firebox");
     }
 
-    void Update()
+    private void Update()
     {
         HandleFire();
         IsBurned();

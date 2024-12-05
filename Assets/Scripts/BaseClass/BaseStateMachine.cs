@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 public class BaseStateMachine
 {
-    protected IState currentState;
+    protected BaseState currentState;
 
-    public virtual void ChangeState(IState newState)
+    public virtual void ChangeState(BaseState newState)
     {
         currentState?.Exit();
         currentState = newState;

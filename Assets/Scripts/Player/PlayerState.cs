@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace Player
 {
-    public abstract class PlayerState : IState
+    public abstract class PlayerState : BaseState
     {
         protected PlayerStateMachine machine;
 
@@ -12,10 +10,6 @@ namespace Player
         {
             this.machine = machine;
         }
-        
-        public virtual void Enter() {}
-        public virtual void Execute() {}
-        public virtual void Exit() {}
     }
 }
 

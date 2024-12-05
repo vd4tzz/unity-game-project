@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace BeeEnemy
 {
-    public class BeeState : IState
+    public class BeeState : BaseState
     {
         protected BeeStateMachine machine;
 
@@ -12,9 +10,6 @@ namespace BeeEnemy
         {
             this.machine = machine;
         }
-        
-        public virtual void Enter() {}
-        public virtual void Execute() {}
-        public virtual void Exit() {}
+
     }
 }
