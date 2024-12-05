@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace BoardEnemy
 {
@@ -18,7 +16,7 @@ namespace BoardEnemy
         // Properties to access the states
         public BoardState Patrol => patrol;
         public BoardState Detect => detect;
-        public BoardState Chase => chase;
+        public BoardState Chase  => chase;
         public BoardState Die    => die;
         public BoardState Hit    => hit;
 
@@ -33,6 +31,7 @@ namespace BoardEnemy
             die    = new DieState(this);
             hit    = new HitState(this);
         
+            // Initial state
             currentState = patrol;
         }
 

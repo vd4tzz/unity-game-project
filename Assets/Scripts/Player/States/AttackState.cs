@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace Player
 {
@@ -12,7 +11,7 @@ namespace Player
 
         public override void Enter()
         {
-            // Debug.Log("Enter Attack");
+            Debug.Log("Enter Attack");
             timer = machine.player.AttackDuration;
             machine.player.anim.Play("Attack");
         }
@@ -20,6 +19,7 @@ namespace Player
         public override void Execute()
         {
             machine.player.Attack();
+
             if(timer > 0)
             {
                 timer -= Time.deltaTime;
@@ -51,7 +51,7 @@ namespace Player
 
         public override void Exit()
         {
-            // Debug.Log("Exit Attack");
+            Debug.Log("Exit Attack");
         }
     }
 }

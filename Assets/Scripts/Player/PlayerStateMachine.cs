@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace Player
 {
     public class PlayerStateMachine : BaseStateMachine
     {
-        public  PlayerController player;
+        public PlayerController player;
 
         private PlayerState idleState;
         private PlayerState moveState;
@@ -16,6 +14,7 @@ namespace Player
         private PlayerState attackState;
         private PlayerState attackState2;
         private PlayerState doubleJumpState;
+        private PlayerState hitState;
 
         public PlayerState Idle    => idleState;
         public PlayerState Move    => moveState;
@@ -25,6 +24,7 @@ namespace Player
         public PlayerState Attack  => attackState;
         public PlayerState Attack2 => attackState2;
         public PlayerState DoubleJump => doubleJumpState;
+        public PlayerState Hit => hitState;
 
         public PlayerStateMachine(PlayerController player)
         {
@@ -38,6 +38,8 @@ namespace Player
             attackState  = new AttackState(this);
             attackState2 = new AttackState2(this);
             doubleJumpState = new DoubleJumpState(this);
+
+            hitState = new HitState(this);
             
             // Initial State
             currentState = idleState;

@@ -1,13 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Player;
 using UnityEngine;
+
 
 namespace BoardEnemy
 {
     public class BoardController : BaseController
     {   
-        
+        #region Patrol variables
         [Header("Patrol Setting")]
         [SerializeField] private float movePatrolSpeed;
         [SerializeField] private float patrolDistance;
@@ -15,24 +14,37 @@ namespace BoardEnemy
         [SerializeField] private LayerMask playerLayer;
         private Vector2 patrolDirection = Vector2.right;
         private bool isDetected;
+        public  bool IsDetected => isDetected;
+        #endregion
         
-        public bool IsDetected => isDetected;
-
+        #region Detect variables
         [Header("Detect Setting")]
         private float detectDuration = 0.3f;
         public  float DetectDuration => detectDuration;
+        #endregion
 
-        [Header("Chase Setting")]
+        #region Hit variables
+        [Header("Hit Setting")]
+        private float hitDuration = 0.3f;
+        public  float HitDuaration => hitDuration;
+        #endregion
+
+        #region Chase & Attack variables
+        [Header("Chase & Attack Setting")]
         [SerializeField] private float chaseRange;
         [SerializeField] private float chaseSpeed;
         [SerializeField] private float attackRange;
         [SerializeField] private int   attackDamage;
+        private Vector2 chaseDirection;
         private bool isChasing;
+        public  bool IsChasing => isChasing;
+        #endregion
 
-        public bool IsChasing => isChasing;
+        #region Coin dropped aftef death variables
+        [Header("Coin Setting")]
+        [SerializeField] private Coin coinObj;
+        #endregion
 
-        
-        
         protected override void Awake()
         {
             base.Awake();
@@ -42,7 +54,6 @@ namespace BoardEnemy
         {
             base.Start();
             machine = new BoardStateMachine(this);
-            // originalPosition = transform.position;
             spawnPoint = transform.position;
         }
 
@@ -57,7 +68,7 @@ namespace BoardEnemy
         {
             base.LateUpdate();
         }
-
+        
         private void Flip()
         {
             if(rb.velocity.x > 0) 
@@ -90,26 +101,21 @@ namespace BoardEnemy
 
             rb.velocity = patrolDirection * movePatrolSpeed;            
 
+            // Raycast is used to detect players horizontally and vertically
             isDetected = Physics2D.Raycast(transform.position, patrolDirection, detectRange, playerLayer);
+            isDetected |= Physics2D.Raycast(transform.position, Vector2.up, detectRange, playerLayer);
         }
 
-
-        public void Stop()
-        {
-            rb.velocity = Vector2.zero;
-        }
-
-        Vector2 chaseDirection;
+        
         public void Chase()
         {
-            // A circle to dectect player to chase player
+            // If player in circle, chase the player
             Collider2D circle = Physics2D.OverlapCircle(transform.position, chaseRange, playerLayer);
             if(circle == null)
             {
                 isChasing = false;
                 
-                // If player is not in chase range
-                return; 
+                return; // If player is not in chase range, end function 
             }
 
             GameObject player = circle.gameObject;
@@ -127,12 +133,30 @@ namespace BoardEnemy
 
             isChasing = true;
 
-            // A ray to detect player to take damage on player
+            // A ray to detect player for damaging on player horizontally
             RaycastHit2D ray = Physics2D.Raycast(transform.position, chaseDirection, attackRange, playerLayer);
             if(ray)
             {
-                ray.collider.GetComponent<IDamageable>().TakeDamage(attackDamage);
+                PlayerController playerEntity = ray.collider.GetComponent<PlayerController>();
+                playerEntity.AttackedDirection = GetDirection();
+                playerEntity.TakeDamage(attackDamage);
+                
             }
+
+            // Dectect vertically
+            ray = Physics2D.Raycast(transform.position, Vector2.up, attackRange, playerLayer);
+            if(ray)
+            {
+                PlayerController playerEntity = ray.collider.GetComponent<PlayerController>();
+                playerEntity.AttackedDirection = GetDirection();
+                playerEntity.TakeDamage(attackDamage);
+            }
+        }
+
+        // Coin dropped after death
+        public void InstantiateCoin()
+        {
+            Instantiate(coinObj, transform.position, Quaternion.identity);
         }
 
         [Header("Debug setting")]

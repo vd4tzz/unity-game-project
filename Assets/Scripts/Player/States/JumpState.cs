@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace Player
 {
     public class JumpState : PlayerState
     {
-        public JumpState(PlayerStateMachine machine) : base(machine) { }
+        public JumpState(PlayerStateMachine machine) : base(machine) {}
 
-        private float jumpTimer;
+        private float timer;
 
         public override void Enter()
         {
-            // Debug.Log("Enter Jump");
+            Debug.Log("Enter Jump");
             machine.player.anim.Play("Jump");
-            jumpTimer = machine.player.JumpDuration;
+            timer = machine.player.JumpDuration;
         }
 
         public override void Execute()
@@ -22,36 +21,33 @@ namespace Player
             machine.player.Jump();
             machine.player.Move();
 
-
-            if (jumpTimer > 0)
+            if(timer > 0)
             {
-                jumpTimer -= Time.deltaTime;
+                timer -= Time.deltaTime;
             }
             else
             {
                 machine.ChangeState(machine.Fall);
             }
-
-            if (machine.player.SpaceInput)
+            
+            if(machine.player.SpaceInput && machine.player.CanDoubleJump)
             {
                 machine.ChangeState(machine.DoubleJump);
             }
-
-            if (machine.player.LeftMouseInput)
+            else if(machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
             }
-
-            if (machine.player.Health <= 0)
+            else if(machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
-            }
-
+            } 
+        
         }
 
         public override void Exit()
         {
-            // Debug.Log("Exit Jump");
+            Debug.Log("Exit Jump");
         }
     }
 }

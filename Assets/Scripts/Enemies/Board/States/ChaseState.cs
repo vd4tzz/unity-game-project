@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace BoardEnemy
 {
@@ -23,8 +22,7 @@ namespace BoardEnemy
             {
                 machine.ChangeState(machine.Patrol);
             }
-
-            if(machine.enemy.IsTakingDamage)
+            else if(machine.enemy.IsTakingDamage)
             {
                 machine.ChangeState(machine.Hit);
             }

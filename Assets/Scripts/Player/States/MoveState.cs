@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace Player
 {
@@ -10,7 +9,7 @@ namespace Player
         
         public override void Enter()
         {
-            // Debug.Log("Enter Move");
+            Debug.Log("Enter Move");
             machine.player.anim.Play("Move");
         }
 
@@ -22,26 +21,27 @@ namespace Player
             {
                 machine.ChangeState(machine.Idle);
             }
-
-            if(machine.player.SpaceInput)
+            else if(machine.player.SpaceInput)
             {
                 machine.ChangeState(machine.Jump);
             }
-
-            if(machine.player.LeftMouseInput)
+            else if(machine.player.LeftMouseInput)
             {
                 machine.ChangeState(machine.Attack);
             }
-
-            if(machine.player.Health <= 0)
+            else if(machine.player.Health <= 0)
             {
                 machine.ChangeState(machine.Die);
+            }
+            else if(machine.player.IsTakingDamage)
+            {
+                machine.ChangeState(machine.Hit);
             }
         }
 
         public override void Exit()
         {
-            // Debug.Log("Exit Move");
+            Debug.Log("Exit Move");
         }
     }
 }

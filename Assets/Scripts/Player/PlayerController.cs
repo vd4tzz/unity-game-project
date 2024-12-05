@@ -1,43 +1,57 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerController : BaseController
-    {
+    public class PlayerController : BaseController, ICombatEntity
+    {   
+        #region Input status variables
         private float xInput;
+        public  float XInput => xInput;
+
         private bool leftMouseInput;
+        public  bool  LeftMouseInput => leftMouseInput;
+
         private bool spaceInput;
+        public  bool  SpaceInput => spaceInput;   
+        #endregion
 
-        public float XInput         => xInput;
-        public bool  LeftMouseInput => leftMouseInput;
-        public bool  SpaceInput     => spaceInput;        
-
+        #region Ground Check variables
         [Header("Ground Check Setting")]
         [SerializeField] private LayerMask groundLayer;
-        [SerializeField] private float     extraHeight;
+        [SerializeField] private float extraHeight;
         private bool isGrounded;
         public  bool IsGrounded => isGrounded;
+        #endregion
 
+        #region Move Variables
         [Header("Move Setting")]
         [SerializeField] private float moveSpeed;
+        #endregion
 
+        #region Jump variables
         [Header("Jump Setting")]
         [SerializeField] private float jumpForce;
-        [SerializeField] private float jumpDuration;
-        public float JumpDuration => jumpDuration;
 
+        [SerializeField] private float jumpDuration = 0.25f;
+        public float JumpDuration => jumpDuration;
+        #endregion
+
+        #region Double jump variables
         [Header("Double Jump Setting")]
         [SerializeField] private float doubleJumpForce;
+        private bool canDoubleJump = true;
+        public bool CanDoubleJump => canDoubleJump;
         private float doubleJumpDuration = 0.1f; 
         public  float DoulbeJumpDuration => doubleJumpDuration;
+        #endregion
 
+        #region Fall variables
         [Header("Fall Setting")]
         [SerializeField] private float multiplier;
+        #endregion
 
+        #region Attack variables
         [Header("Attack Setting")]
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange;
@@ -45,11 +59,29 @@ namespace Player
         [SerializeField] private int attackDamage;
         private float attackDuration = 0.35f; 
         public  float AttackDuration => attackDuration;
+        #endregion
 
+        #region Die variables
         [Header("Die Setting")]
         private float dieDuration = 2.7f;
         public  float DieDuration => dieDuration;
+        #endregion
 
+        #region Attacked variables
+        private int attackedDirection;
+        public  int AttackedDirection 
+        { 
+            get{return attackedDirection;} 
+            set{attackedDirection = value;} 
+        }
+        #endregion
+
+        #region Coin variables
+        [Header("Coin Setting")]
+        public int coin;
+        public int Coin { get{ return coin;} set{coin = value;} }
+        #endregion
+        
         protected override void Awake()
         {
             base.Awake();
@@ -67,7 +99,9 @@ namespace Player
             base.Update();
 
             HandleInput();
-            _IsGrounded();
+            CheckedIsGrounded();
+            HandleCanDoubleJump();
+
         }
 
         protected override void LateUpdate()
@@ -83,20 +117,18 @@ namespace Player
             leftMouseInput = Input.GetMouseButtonDown(0);
         }
 
-        void _IsGrounded()
+        void CheckedIsGrounded()
         {
             RaycastHit2D boxCast = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.down, extraHeight, groundLayer);
             
             isGrounded = (boxCast)? true : false;
-
         }
 
-        
         public void Move()
         {
             rb.velocity = new Vector2(moveSpeed * xInput, rb.velocity.y);
 
-            // Flip character
+            // Flip character depend on xInput
             if(xInput > 0)
                 transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             else if(xInput < 0)
@@ -115,19 +147,53 @@ namespace Player
 
         public void DoubleJump()
         {
-            rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
+            if(canDoubleJump)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, doubleJumpForce);
+                canDoubleJump = false;
+            }
+        }
+
+        private void HandleCanDoubleJump()
+        {
+            if(isGrounded)
+            {
+                canDoubleJump = true;
+            }
         }
 
         public void Attack()
         {
-            rb.velocity = new Vector2(1 * transform.localScale.x, rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
+            
+            rb.velocity = new Vector2(1.5f * GetDirection(), rb.velocity.y + Physics2D.gravity.y * multiplier/2 * Time.deltaTime);
             
             Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
             foreach(Collider2D enemy in enemies)
             {
-                enemy.GetComponent<IDamageable>().TakeDamage(attackDamage);
+                enemy.GetComponent<ICombatEntity>().TakeDamage(attackDamage);
             }
 
+        }
+
+        public void SetForce(float x, float y)
+        {
+            rb.AddForce(new Vector2(x, y), ForceMode2D.Impulse);
+        }
+
+        public void SetVelocity(float x, float y)
+        {
+            rb.velocity = new Vector2(x, y);
+        }
+
+        public void Respawn()
+        {
+            transform.position = spawnPoint;
+            currentHealth = maxHealth;
+        }
+
+        public void UpdateRespawn(Vector2 newSpawPoint)
+        {
+            spawnPoint = newSpawPoint;
         }
 
         [Header("Debug Setting")]
@@ -138,6 +204,8 @@ namespace Player
             {
                 Gizmos.DrawWireSphere(attackPoint.position, attackRange);
             }
+
+            // Gizmos.DrawWireCube(bc.bounds.center, bc.bounds.size);
             
         }
     }
