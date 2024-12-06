@@ -1,0 +1,127 @@
+@startuml Diagram
+
+interface ICombatEntity {
+    + void TakeDamage(int damage)
+}
+
+class BaseController {
+    # Vector3 spawnPoint
+    # BaseStateMachine machine
+    # int maxHealth
+
+    + void TakeDamage(int damage)
+    + void Heal(int hp)
+}
+
+class BaseStateMachine {
+    # BaseController controller
+    # BaseState currentState
+
+    + void ChangeState(BaseState newState)
+    + void Update()
+}
+
+class BaseState 
+{
+    + void Enter() {}
+    + void Execute() {}
+    + void Exit() {}
+}
+
+BaseController ..|> ICombatEntity
+BaseStateMachine *-- BaseController
+BaseState *-- BaseStateMachine
+
+class PlayerController {
+    - float moveSpeed
+    - float jumpForce
+    - int attackDamage
+
+    + Move()
+    + Fall()
+    + Jump()
+
+} 
+PlayerController -|> BaseController
+
+class PlayerStateMachine {
+    - PlayerState idleState;
+    - PlayerState moveState;
+    - PlayerState jumpState;
+    - PlayerState fallState;
+    - PlayerState dieState;
+    - PlayerState attackState;
+    - PlayerState attackState2;
+    - PlayerState doubleJumpState;
+    - PlayerState hitState;
+}
+PlayerStateMachine -|> BaseStateMachine
+
+class PlayerState {
+
+}
+PlayerState -|> BaseState
+
+class IdleState {
+
+}
+IdleState -|> PlayerState
+
+class JumpState {
+
+}
+JumpState -|> PlayerState
+
+class HitState {
+
+}
+HitState -|> PlayerState
+
+
+class DieState {
+
+}
+DieState -|> PlayerState
+
+PlayerStateMachine *-- PlayerController
+PlayerState *-- PlayerStateMachine
+
+class BoardController {
+    - float movePatrolSpeed;
+    - float patrolDistance;
+    - float chaseRange;
+    - float chaseSpeed;
+    - float attackRange;
+
+    + void Patrol()
+    + void Chase()
+} 
+BoardController -|> BaseController
+
+class BoardStateMachine {
+
+}
+BoardStateMachine -|> BaseStateMachine
+
+class BoardState {
+
+}
+
+class PatrolState {
+
+}
+PatrolState -|> BoardState
+
+class ChaseState {
+
+}
+ChaseState -|> BoardState
+
+class DieState {
+
+}
+DieState -|> BoardState
+
+BoardStateMachine *-- BoardController
+BoardState *-- BoardStateMachine
+@enduml
