@@ -11,7 +11,7 @@ public class Spawn : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             other.GetComponent<PlayerController>().UpdateRespawn(transform.position);   
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

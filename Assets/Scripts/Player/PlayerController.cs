@@ -81,6 +81,11 @@ namespace Player
         public int coin;
         public int Coin { get{ return coin;} set{coin = value;} }
         #endregion
+
+        #region 
+        [Header("Audio Setting")]
+        [SerializeField] public PlayerAudioManager audioManager;
+        #endregion
         
         protected override void Awake()
         {
@@ -92,6 +97,8 @@ namespace Player
         {
             base.Start();
             machine = new PlayerStateMachine(this);
+
+            audioManager = GameObject.FindGameObjectWithTag("PlayerAudio").GetComponent<PlayerAudioManager>();
         }
 
         protected override void Update()

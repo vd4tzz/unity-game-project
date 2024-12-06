@@ -12,6 +12,7 @@ namespace Player
         public override void Enter()
         {
             Debug.Log("Enter Attack");
+            machine.player.audioManager?.PlaySFX(PlayerAudioManager.ATTACK);
             timer = machine.player.AttackDuration;
             machine.player.anim.Play("Attack");
         }

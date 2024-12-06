@@ -13,6 +13,7 @@ namespace Player
         {
             machine.player.anim.Play("Die");
             timer = machine.player.DieDuration;
+            machine.player.audioManager?.PlaySFX(PlayerAudioManager.DEATH);
             machine.player.gameObject.layer = LayerMask.NameToLayer("Default");
         }
 
