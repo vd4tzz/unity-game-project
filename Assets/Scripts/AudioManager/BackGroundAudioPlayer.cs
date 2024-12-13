@@ -21,4 +21,11 @@ public class BackGroundAudioManager : MonoBehaviour
     {
         
     }
+
+    private void PlayBackGround()
+    {
+        audioSource.clip = background;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
 }

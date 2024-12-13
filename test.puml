@@ -99,7 +99,11 @@ class BoardController {
 BoardController -|> BaseController
 
 class BoardStateMachine {
-
+    - BoardState patrol;
+    - BoardState detect;
+    - BoardState chase;
+    - BoardState die;
+    - BoardState hit;
 }
 BoardStateMachine -|> BaseStateMachine
 
@@ -121,6 +125,29 @@ class DieState {
 
 }
 DieState -|> BoardState
+
+class BackGroundAudioPlayer {
+    - AudioSource audioSource
+
+    + void PlayBackGround()
+}
+
+class ItemsAudioManager {
+    - AudioSource audioSource
+    - AudioClip coin
+    - AudioClip heal
+
+    + void PlaySFX(AudioClip audioClip)
+}
+
+class PlayerAudioManager {
+    - AudioSource audioSource
+    - AudioClip death;
+    - AudioClip hit;
+    - AudioClip attack;
+
+    + void PlaySFX(AudioClip audioClip)
+}
 
 BoardStateMachine *-- BoardController
 BoardState *-- BoardStateMachine

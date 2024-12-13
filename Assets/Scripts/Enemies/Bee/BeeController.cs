@@ -148,10 +148,10 @@ namespace BeeEnemy
 
         }
 
-        void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, detectRange);
-        }
+        // void OnDrawGizmos()
+        // {
+        //     Gizmos.color = Color.red;
+        //     Gizmos.DrawWireSphere(transform.position, detectRange);
+        // }
     }
 }
